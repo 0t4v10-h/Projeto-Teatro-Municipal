@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.target=Evento
+comment1.params=
+comment1.target=Evento()
+comment10.params=descricao
+comment10.target=void\ setDescricao(java.lang.String)
+comment2.params=nome\ data\ horario\ descricao
+comment2.target=Evento(java.lang.String,\ java.time.LocalDate,\ java.time.LocalTime,\ java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ getNome()
+comment4.params=nome
+comment4.target=void\ setNome(java.lang.String)
+comment5.params=
+comment5.target=java.time.LocalDate\ getData()
+comment6.params=data
+comment6.target=void\ setData(java.time.LocalDate)
+comment7.params=
+comment7.target=java.time.LocalTime\ getHorario()
+comment8.params=horario
+comment8.target=void\ setHorario(java.time.LocalTime)
+comment9.params=
+comment9.target=java.lang.String\ getDescricao()
+numComments=11

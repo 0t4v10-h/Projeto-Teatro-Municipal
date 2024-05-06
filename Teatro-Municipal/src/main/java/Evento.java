@@ -3,18 +3,27 @@ import java.time.LocalTime;
 
 public class Evento
 {
+    private int numero;
     private String nome;
-    private LocalDate data;
-    private LocalTime horario;
+    private String data;
+    private String horario;
     private String descricao;     
     
     public Evento(){}   
-    public Evento(String nome, LocalDate data, LocalTime horario, String descricao){
+    public Evento(int numero, String nome, String data, String horario, String descricao){
+        this.numero = numero;
         this.nome = nome;
         this.data = data;  
         this.horario = horario;
         this.descricao = descricao;
     }     
+
+    public int getNumero(){
+        return this.numero;
+    }
+    public void setNumero(int numero){
+        this.numero = numero;
+    }
     
     public String getNome(){
         return this.nome;
@@ -23,17 +32,17 @@ public class Evento
         this.nome = nome;
     }
     
-    public LocalDate getData(){
+    public String getData(){
         return this.data;
     }
-    public void setData(LocalDate data){
+    public void setData(String data){
         this.data = data;
     }
     
-    public LocalTime getHorario(){
+    public String getHorario(){
         return this.horario;
     }
-    public void setHorario(LocalTime horario){
+    public void setHorario(String horario){
         this.horario = horario;
     }
     

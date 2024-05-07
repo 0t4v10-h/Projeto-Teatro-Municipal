@@ -3,30 +3,18 @@ import java.util.ArrayList;
 public class Teatro
 {
     private String nome;
-    private int capacidade;
     private ArrayList<Evento> eventos;
     
     public Teatro(){
         eventos = new ArrayList<>();
     }
-    public Teatro(String nome, int capacidade){
+    public Teatro(String nome){
         this.nome = nome;
-        this.capacidade = capacidade;
         eventos = new ArrayList<>();
     }
     
     public String getNome(){
-        return this.nome = nome;
-    }
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-    
-    public int getCapacidade(){
-        return this.capacidade = capacidade;
-    }
-    public void setCapacidade(int capacidade){
-        this.capacidade = capacidade;
+        return this.nome;
     }
     
     public ArrayList<Evento> getEvento(){
@@ -34,5 +22,9 @@ public class Teatro
     }
     public void addEvento(Evento eventos){
         this.eventos.add(eventos);
+    }
+
+    public boolean comprarIngresso(Evento evento, Cliente cliente, Assento assento){
+        return evento.venderIngresso(cliente, assento);
     }
 }

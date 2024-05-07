@@ -1,5 +1,4 @@
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class Evento
 {
@@ -7,15 +6,21 @@ public class Evento
     private String nome;
     private String data;
     private String horario;
-    private String descricao;     
+    private String descricao;
+    private int capacidade;
+    private ArrayList<Assento> assentosDisponiveis;
     
-    public Evento(){}   
-    public Evento(int numero, String nome, String data, String horario, String descricao){
+    public Evento(int numero, String nome, String data, String horario, String descricao, int capacidade){
         this.numero = numero;
         this.nome = nome;
         this.data = data;  
         this.horario = horario;
         this.descricao = descricao;
+        this.capacidade = capacidade;
+        this.assentosDisponiveis = new ArrayList<>();
+        for(int i = 1; i <= capacidade; i++){
+            this.assentosDisponiveis.add(new Assento(i));
+        }
     }     
 
     public int getNumero(){
@@ -51,5 +56,27 @@ public class Evento
     }
     public void setDescricao(String descricao){
         this.descricao = descricao;
+    }
+
+    public int getCapacidade(){
+        return this.capacidade;
+    }
+    public void setCapacidade(int capacidade){
+        this.capacidade = capacidade;
+    }
+
+    public boolean venderIngresso(Cliente cliente, Assento assento){
+        if(assentosDisponiveis.contains(assento)){
+            assentosDisponiveis.remove(assento);
+            System.out.println("Ingresso vendido! \nCliente: " +cliente.getNome()+ "\nPoltrona: " +assento.getNumero());
+            return true;
+        } else{
+            System.out.println("Poltrona não disponível!");
+            return false;
+        }
+    }
+
+    public int assentosDisponiveis(){
+        return assentosDisponiveis.size();
     }
 }

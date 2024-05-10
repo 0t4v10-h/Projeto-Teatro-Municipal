@@ -1,13 +1,12 @@
-import java.time.LocalDate;
 
 public class Cliente{
     
     private String nome;
     private String email;
-    private LocalDate dataNasc;
+    private String dataNasc;
     
     public Cliente(){}
-    public Cliente(String nome, String email, LocalDate dataNasc){
+    public Cliente(String nome, String email, String dataNasc){
     
         this.nome = nome;
         this.email = email;
@@ -28,10 +27,10 @@ public class Cliente{
         this.email = email;
     }
     
-    public LocalDate getDataNasc(){
+    public String getDataNasc(){
         return this.dataNasc;
     }
-    public void setDataNasc(LocalDate dataNasc){
+    public void setDataNasc(String dataNasc){
         this.dataNasc = dataNasc;
     }
 }

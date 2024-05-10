@@ -68,10 +68,8 @@ public class Evento
     public boolean venderIngresso(Cliente cliente, Assento assento){
         if(assentosDisponiveis.contains(assento)){
             assentosDisponiveis.remove(assento);
-            System.out.println("Ingresso vendido! \nCliente: " +cliente.getNome()+ "\nPoltrona: " +assento.getNumero());
             return true;
         } else{
-            System.out.println("Poltrona não disponível!");
             return false;
         }
     }

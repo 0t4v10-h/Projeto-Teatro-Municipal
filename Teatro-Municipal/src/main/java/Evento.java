@@ -65,6 +65,10 @@ public class Evento
         this.capacidade = capacidade;
     }
 
+    public ArrayList<Assento> getAssentosDisponiveis() {
+        return assentosDisponiveis;
+    }
+
     public boolean venderIngresso(Cliente cliente, Assento assento){
         if(assentosDisponiveis.contains(assento)){
             assentosDisponiveis.remove(assento);

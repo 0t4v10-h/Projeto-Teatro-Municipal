@@ -1,23 +1,28 @@
 
 public class Assento
 {
-   private int numero;
+   private int numeroAssento;
 
    public Assento(){}
-   public Assento(int numero){
-       this.numero = numero;
+   public Assento(int numeroAssento){
+
+       this.numeroAssento = numeroAssento;
    }
    
-   public int verificaAssento(int numero, boolean assentoOcupado){
+   public int verificaAssento(int numeroAssento, boolean assentoOcupado){
 
        return 0;
    }
    
 
-   public int getNumero(){
-       return numero;
+   public int getNumeroAssento(){
+
+       return numeroAssento;
    }
-   public void setNumero(int numero){
-       this.numero = numero; 
+   public void setNumeroAssento(int numeroAssento){
+
+       this.numeroAssento = numeroAssento;
    }
+
+
 }

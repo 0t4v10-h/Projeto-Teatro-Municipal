@@ -3,13 +3,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Scanner ler = new scanner(System.in);
+        Scanner ler = new Scanner(System.in);
         Teatro teatro = new Teatro();
         Assento assentoEscolhido = new Assento();
         Ingresso ingresso = new Ingresso();
+        Cliente cliente = new Cliente();
 
 
-        System.out.println("Bem-vindo ao Teatro ---!");
+        System.out.println("--- Bem-vindo ao Teatro ---!");
 
         eventosDisponiveis(teatro);
 
@@ -23,7 +24,7 @@ public class Main {
             System.out.println("Assentos disponiveis: " +evento.assentosDisponiveis());
             System.out.println();
 
-            if(evento.assentosDisponiveis.size() > 0){
+            if(evento.assentosDisponiveis() > 0){
                 System.out.println("Comprar ingresso: (S)im / (N)ão");
                 String le = ler.nextLine();
 
@@ -32,23 +33,23 @@ public class Main {
                     cadastrarCliente(ler);
 
                     System.out.println("Escolha o número do assento desejado: ");
-                    assentoEscolhido.setAssento(ler.nextInt());
+                    assentoEscolhido.setNumeroAssento(ler.nextInt());
 
-                    if(teatro.comprarIngresso() = false){
+                    if(!teatro.comprarIngresso(evento, cliente, assentoEscolhido)){
                         System.out.println("Desculpe, a poltrona selecionada não está disponível. Escolha outra.");
-                        assentoEscolhido.setAssento(ler.nextInt());
+                        assentoEscolhido.setNumeroAssento(ler.nextInt());
                     }
 
                     if(precoIngresso(evento, cliente) == true){
                         System.out.println("Feliz Aniversario!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
-                        System.out.println("Você ganhou um desconto de 50%.")
+                        System.out.println("Você ganhou um desconto de 50%.");
                     }
                     
                     teatro.comprarIngresso(evento, cliente, assentoEscolhido);
 
                     System.out.println("-------------------------------------------------");
                     System.out.println("Ingresso comprado para o evento: " +evento.getNome());
-                    System.out.println("Poltrona: " +ingresso.getAssento().getNumero());
+                    System.out.println("Poltrona: " +ingresso.getAssento().getNumeroAssento());
                     System.out.println("Data: " +evento.getData()+ " - Horario: " +evento.getHorario());
 
                     if(precoIngresso(evento, cliente) == true){

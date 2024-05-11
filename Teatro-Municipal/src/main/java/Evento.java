@@ -79,6 +79,7 @@ public class Evento
     }
 
     public int assentosDisponiveis(){
+
         return assentosDisponiveis.size();
     }
 }

@@ -1,22 +1,20 @@
 import java.util.Scanner;
 
-
 public class Main {
     public static void main(String[] args) {
-            Scanner ler = new Scanner(System.in);
-            Teatro teatro = new Teatro();
-            Ingresso ingresso = new Ingresso();
+        Scanner ler = new Scanner(System.in);
+        Teatro teatro = new Teatro();
 
 
-            System.out.println("--- Bem-vindo ao Teatro !---");
+        System.out.println("--- Bem-vindo ao Teatro! ---");
 
             while (true){
                 int menu = menuCliente();
 
                 if(menu == 1){
                 Evento eventoEscolhido = comprarIngresso(teatro);
-                break;
-                } else if (menu == 2) {
+
+                } else if (menu == 0) {
                     System.out.println("Ate Mais!!");
                     break;
                 }
@@ -31,6 +29,17 @@ public class Main {
                 System.out.println("## 0) Sair");
 
                 return ler.nextInt();
+        }
+        public static int menuVendedor() {
+            Scanner ler = new Scanner(System.in);
+
+            System.out.println("### MENU PRINCIPAL");
+            System.out.println("## 1) Cadastrar cliente");
+            System.out.println("## 2) Cadastrar evento");
+            System.out.println("## 3) Gerar Relatorio");
+            System.out.println("## 0) Sair");
+
+            return ler.nextInt();
         }
 
         public static Evento comprarIngresso(Teatro teatro){
@@ -81,16 +90,19 @@ public class Main {
 
             //Necessario criar uma matriz com o numeros dos assentos disponiveis
 
-            if (!teatro.comprarIngresso(eventoEscolhido,cliente,assentoEscolhido)){
+            while (teatro.comprarIngresso(eventoEscolhido,cliente,assentoEscolhido)){
                 System.out.println("Desculpe, a poltrona selecionada não está disponível. Escolha outra.");
                 assentoEscolhido.setNumeroAssento(ler.nextInt());
             }
 
+            double preco = ingresso.getPreco();
             if(precoIngresso(eventoEscolhido, cliente) == true){
                 System.out.println("Feliz Aniversario!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
                 System.out.println("Você ganhou um desconto de 50%.");
+                preco *= 0.50;
             }
-            teatro.comprarIngresso(eventoEscolhido, cliente, assentoEscolhido);
+            ingresso.setPreco(preco);
+
 
             if (ingresso.getAssento() != null){
                 System.out.println("-------------------------------------------------");
@@ -98,14 +110,14 @@ public class Main {
                 System.out.println("Poltrona: " +ingresso.getAssento().getNumeroAssento());
                 System.out.println("Data: " +eventoEscolhido.getData()+ " - Horario: " +eventoEscolhido.getHorario());
 
-                if(precoIngresso(eventoEscolhido, cliente) == true){
+                /*if(precoIngresso(eventoEscolhido, cliente) == true){
                     System.out.println("Preço: " +ingresso.getPreco() * 0.50);
                 } else{
                     System.out.println("Preço: " +ingresso.getPreco());
                 }
-            }/*else{
-                System.out.println("Não há mais ingressos disponiveis para este evento.");
-            }*/
+            }else{
+                System.out.println("Não há mais ingressos disponiveis para este evento.");*/
+            }
 
             return eventoEscolhido;
 

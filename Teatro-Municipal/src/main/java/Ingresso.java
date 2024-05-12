@@ -1,11 +1,9 @@
 public class Ingresso
 {
-    //Atributos
     private Evento evento;
     private double preco;
     private Assento assento;
 
-    //Construtor
     public Ingresso()
     {
         
@@ -16,9 +14,7 @@ public class Ingresso
         this.preco = preco;
         this.assento = assento;
     }
-    
 
-    //Get e Set
     public Evento getEvento(){
         return evento;
     }

@@ -35,6 +35,29 @@ public class Main {
                         ler.nextLine();
 
                         Evento eventoEscolhido = escolherEvento(teatro, numeroEventoEscolhido);
+
+                        escolherAssento(eventoEscolhido,ler);
+
+                        System.out.println("Forma de Pagamento: ");
+                        System.out.println("## 1) Dinheiro");
+                        System.out.println("## 2) Pix");
+                        System.out.println("## 3) Cartão");
+                        int pagamento = ler.nextInt();
+                        ler.nextLine();
+
+                        if(pagamento == 1 || pagamento == 2){
+                            System.out.println("Pagamento realizado!");
+                            System.out.println("Ingresso vendido!");
+                        }
+                        if (pagamento == 3){
+                            System.out.println("O cliente pode parcelar até 3x sem juros");
+                            System.out.println("Cliente parcelou em quantas vezes?");
+                            int parcelas = ler.nextInt();
+                            ler.nextLine();
+                            System.out.println(eventoEscolhido.getPrecoIngresso() / parcelas + "R$ por mês");
+                            System.out.println("Ingresso Vendido");
+                        }
+
                     }
                 }
             } else{
@@ -179,16 +202,16 @@ public class Main {
 
         public static void eventosDisponiveis(Teatro teatro) {
 
-            Evento e1 = new Evento(1, "Espetaculo Rei Leão", "05/06/2024", "18:00", "O espetáculo musical é narrado pelo sábio Rafiki que conta a história de Simba, o principe dos leões e herdeiro do trono.", 50);
+            Evento e1 = new Evento(1, "Espetaculo Rei Leão", "05/06/2024", "18:00", "O espetáculo musical é narrado pelo sábio Rafiki que conta a história de Simba, o principe dos leões e herdeiro do trono.", 50,100);
             teatro.addEvento(e1);
 
-            Evento e2 = new Evento(2, "Frozen: O musical", "06/06/2024", "20:00", "Um musical baseado no filme da Disney, Frozen.", 50);
+            Evento e2 = new Evento(2, "Frozen: O musical", "06/06/2024", "20:00", "Um musical baseado no filme da Disney, Frozen.", 50, 100);
             teatro.addEvento(e2);
 
-            Evento e3 = new Evento(3, "Hermanoteu na terra de Godah", "07/06/2024", "19:00", "A peça conta a historia de Hermanoteu, um urbano típico, obediente e bom pastor do tempo do Antigo Testamento da Bíblia.", 50);
+            Evento e3 = new Evento(3, "Hermanoteu na terra de Godah", "07/06/2024", "19:00", "A peça conta a historia de Hermanoteu, um urbano típico, obediente e bom pastor do tempo do Antigo Testamento da Bíblia.", 50, 100);
             teatro.addEvento(e3);
 
-            Evento e4 = new Evento(4, "Romeu e Julieta", "08/06/2024", "18:30", "Romeu e Julieta é uma tragédia sobre dois adolescentes cuja morte acaba unindo suas famílias, outrora em pé de guerra.", 50);
+            Evento e4 = new Evento(4, "Romeu e Julieta", "08/06/2024", "18:30", "Romeu e Julieta é uma tragédia sobre dois adolescentes cuja morte acaba unindo suas famílias, outrora em pé de guerra.", 50,100);
             teatro.addEvento(e4);
         }
 

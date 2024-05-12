@@ -9,8 +9,9 @@ public class Evento
     private String descricao;
     private int capacidade;
     private ArrayList<Assento> assentosDisponiveis;
+    private double precoIngresso;
     
-    public Evento(int numero, String nome, String data, String horario, String descricao, int capacidade){
+    public Evento(int numero, String nome, String data, String horario, String descricao, int capacidade, double precoIngresso){
         this.numero = numero;
         this.nome = nome;
         this.data = data;  
@@ -18,10 +19,19 @@ public class Evento
         this.descricao = descricao;
         this.capacidade = capacidade;
         this.assentosDisponiveis = new ArrayList<>();
+        this.precoIngresso = precoIngresso;
         for(int i = 1; i <= capacidade; i++){
             this.assentosDisponiveis.add(new Assento(i));
         }
-    }     
+    }
+
+    public double getPrecoIngresso() {
+        return precoIngresso;
+    }
+
+    public void setPrecoIngresso(double ingresso) {
+        this.precoIngresso = precoIngresso;
+    }
 
     public int getNumero(){
         return this.numero;
@@ -66,6 +76,7 @@ public class Evento
     }
 
     public ArrayList<Assento> getAssentosDisponiveis() {
+
         return assentosDisponiveis;
     }
 

@@ -10,7 +10,8 @@ public class Evento
     private int capacidade;
     private ArrayList<Assento> assentosDisponiveis;
     private double precoIngresso;
-    
+
+    public Evento(){}
     public Evento(int numero, String nome, String data, String horario, String descricao, int capacidade, double precoIngresso){
         this.numero = numero;
         this.nome = nome;

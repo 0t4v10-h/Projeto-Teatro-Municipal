@@ -54,32 +54,7 @@ public class Main {
                         }
 
                     }else if(menuFunc == 2){
-                        Evento evento = new Evento();
-
-                        System.out.println("### Cadastrar novo evento!\n");
-                        System.out.println("### Número: ");
-                        evento.setNumero(ler.nextInt());
-                        ler.nextLine();
-
-                        System.out.println("### Nome: ");
-                        evento.setNome(ler.nextLine());
-
-                        System.out.println("### Data: ");
-                        evento.setData(ler.nextLine());
-
-                        System.out.println("### Horario: ");
-                        evento.setHorario(ler.nextLine());
-
-                        System.out.println("### Descrição: ");
-                        evento.setDescricao(ler.nextLine());
-
-                        System.out.println("### Capacidade: ");
-                        evento.setCapacidade(ler.nextInt());
-                        ler.nextInt();
-
-                        System.out.println("### Preço do ingresso: ");
-                        evento.setPrecoIngresso(ler.nextDouble());
-                        ler.nextDouble();
+                        cadastrarEvento(ler);
                     }else if(menuFunc == 3){
 
                     }else if(menuFunc == 0){
@@ -159,6 +134,35 @@ public class Main {
                 break;
             }
         }
+    }
+
+    private static void cadastrarEvento(Scanner ler) {
+        Evento evento = new Evento();
+
+        System.out.println("### Cadastrar novo evento!\n");
+        System.out.println("### Número: ");
+        evento.setNumero(ler.nextInt());
+        ler.nextLine();
+
+        System.out.println("### Nome: ");
+        evento.setNome(ler.nextLine());
+
+        System.out.println("### Data: ");
+        evento.setData(ler.nextLine());
+
+        System.out.println("### Horario: ");
+        evento.setHorario(ler.nextLine());
+
+        System.out.println("### Descrição: ");
+        evento.setDescricao(ler.nextLine());
+
+        System.out.println("### Capacidade: ");
+        evento.setCapacidade(ler.nextInt());
+        ler.nextInt();
+
+        System.out.println("### Preço do ingresso: ");
+        evento.setPrecoIngresso(ler.nextDouble());
+        ler.nextDouble();
     }
 
     private static int pagarIngresso(Scanner ler) {

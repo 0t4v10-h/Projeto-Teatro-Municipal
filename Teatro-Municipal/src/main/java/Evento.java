@@ -69,7 +69,7 @@ public class Evento
         return assentosDisponiveis;
     }
 
-    public boolean venderIngresso(Cliente cliente, Assento assento){
+    public boolean verificaIngressoVendido(Cliente cliente, Assento assento){
         if(assentosDisponiveis.contains(assento)){
             assentosDisponiveis.remove(assento);
             return true;

@@ -14,12 +14,12 @@ public class Main {
            while (true){
                 int menu = menuCliente();
 
-                if(menu == 1){
+                if(menu == 1) {
                     eventosDisponiveis(teatro);
 
                     System.out.println("Agenda de eventos: ");
                     System.out.println("-------------------------------------------------");
-                    for(Evento evento : teatro.getEvento()) {
+                    for (Evento evento : teatro.getEvento()) {
                         System.out.println("Evento: " + evento.getNumero());
                         System.out.println("Peça: " + evento.getNome());
                         System.out.println("Data: " + evento.getData() + " - Horario: " + evento.getHorario());
@@ -32,78 +32,92 @@ public class Main {
                     int numeroEventoEscolhido = ler.nextInt();
                     ler.nextLine();
 
-                    Evento eventoEscolhido = null;
-                    for (Evento evento : teatro.getEvento()){
-                        if (evento.getNumero() == numeroEventoEscolhido){
-                            eventoEscolhido = evento;
-                            break;
-                        }
-                    }
-                    if (eventoEscolhido != null){
+                    Evento eventoEscolhido = escolherEvento(teatro, numeroEventoEscolhido);
+
+                    if (eventoEscolhido != null) {
                         System.out.println("Você escolheu o evento: " + eventoEscolhido.getNome());
                     }
-                    if(eventoEscolhido.assentosDisponiveis() > 0){
+                    if (eventoEscolhido.assentosDisponiveis() > 0) {
                         System.out.println("Comprar ingresso: (S)im / (N)ão");
                         String le = ler.nextLine();
 
-                        if (le.equalsIgnoreCase("S")){
+                        if (le.equalsIgnoreCase("S")) {
                             System.out.println("Precisamos que você se cadastre!!!");
                             cadastrarCliente(ler);
                         }
                     }
 
                     System.out.println("Assentos disponiveis: ");
-                    for(Assento assento : eventoEscolhido.getAssentosDisponiveis()){
+                    for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
                         System.out.print(" " + assento.getNumeroAssento());
                     }
                     System.out.println("\nEscolha o número do assento desejado: ");
-                    assentoEscolhido.setNumeroAssento(ler.nextInt());
-                    teatro.comprarIngresso(eventoEscolhido,cliente,assentoEscolhido);
+                    int numeroAssentoEscolhido = ler.nextInt();
+                    ler.nextLine();
 
-                    //Necessario criar uma matriz com o numeros dos assentos disponiveis
+                    assentoEscolhido = verificaAssentoDisponivel(eventoEscolhido, numeroAssentoEscolhido);
 
-                    while (teatro.comprarIngresso(eventoEscolhido,cliente,assentoEscolhido)){
-                        System.out.println("Desculpe, a poltrona selecionada não está disponível. Escolha outra.");
-                        assentoEscolhido.setNumeroAssento(ler.nextInt());
+                    if (assentoEscolhido != null) {
+
+                        if (teatro.comprarIngresso(eventoEscolhido, cliente, assentoEscolhido)) {
+                            System.out.println("Ingresso comprado com sucesso!");
+                        }
+                    } else {
+                        System.out.println("Assento inválido. Tente novamente.");
                     }
 
-                    double preco = ingresso.getPreco();
-                    if(precoIngresso(eventoEscolhido, cliente) == true){
+                    if (precoIngresso(eventoEscolhido, cliente)) {
                         System.out.println("Feliz Aniversario!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
                         System.out.println("Você ganhou um desconto de 50%.");
-                        preco *= 0.50;
                     }
-                    ingresso.setPreco(preco);
 
-
-                    if (ingresso.getAssento() != null){
+                    if (ingresso.getAssento() != null) {
                         System.out.println("-------------------------------------------------");
-                        System.out.println("Ingresso comprado para o evento: " +eventoEscolhido.getNome());
-                        System.out.println("Poltrona: " +ingresso.getAssento().getNumeroAssento());
-                        System.out.println("Data: " +eventoEscolhido.getData()+ " - Horario: " +eventoEscolhido.getHorario());
+                        System.out.println("Ingresso comprado para o evento: " + eventoEscolhido.getNome());
+                        System.out.println("Poltrona: " + ingresso.getAssento().getNumeroAssento());
+                        System.out.println("Data: " + eventoEscolhido.getData() + " - Horario: " + eventoEscolhido.getHorario());
 
-                    /*if(precoIngresso(eventoEscolhido, cliente) == true){
-                        System.out.println("Preço: " +ingresso.getPreco() * 0.50);
-                    } else{
-                        System.out.println("Preço: " +ingresso.getPreco());
-                    }
-                    }else{
-                        System.out.println("Não há mais ingressos disponiveis para este evento.");*/
-                            }
+                        if (precoIngresso(eventoEscolhido, cliente)) {
+                            System.out.println("Preço: " + ingresso.getPreco() * 0.50);
+                        } else {
+                            System.out.println("Preço: " + ingresso.getPreco());
+                        }
+                    } /*else {
+                        System.out.println("Não há mais ingressos disponiveis para este evento.");
+                    }*/
+
 
                 } else if (menu == 0) {
                     System.out.println("Ate Mais!!");
                     break;
                 }
             }
-
-
-
-
-
-
     }
-        public static int menuCliente() {
+
+    private static Evento escolherEvento(Teatro teatro, int numeroEventoEscolhido) {
+        Evento eventoEscolhido = null;
+        for (Evento evento : teatro.getEvento()){
+            if (evento.getNumero() == numeroEventoEscolhido){
+                eventoEscolhido = evento;
+                break;
+            }
+        }
+        return eventoEscolhido;
+    }
+
+    private static Assento verificaAssentoDisponivel(Evento eventoEscolhido, int numeroAssentoEscolhido) {
+        Assento assentoEscolhido;
+        assentoEscolhido = null;
+        for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
+            if (assento.getNumeroAssento() == numeroAssentoEscolhido) {
+                assentoEscolhido = assento;
+                break;
+            }
+        }
+        return assentoEscolhido;
+    }
+
+    public static int menuCliente() {
             Scanner ler = new Scanner(System.in);
 
                 System.out.println("### MENU PRINCIPAL");
@@ -112,6 +126,7 @@ public class Main {
 
                 return ler.nextInt();
         }
+
         public static int menuVendedor() {
             Scanner ler = new Scanner(System.in);
 
@@ -157,8 +172,6 @@ public class Main {
                 return true;
             } else{
                 return false;
-
         }
-
     }
 }

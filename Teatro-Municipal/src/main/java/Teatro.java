@@ -25,6 +25,6 @@ public class Teatro
     }
 
     public boolean comprarIngresso(Evento evento, Cliente cliente, Assento assento){
-        return evento.venderIngresso(cliente, assento);
+        return evento.verificaIngressoVendido(cliente, assento);
     }
 }

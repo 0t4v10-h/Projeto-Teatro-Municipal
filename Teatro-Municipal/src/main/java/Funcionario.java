@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class Funcionario {
+public class Funcionario extends Usuario{
+
+    public Funcionario() {
+        super("", "");
+    }
 }

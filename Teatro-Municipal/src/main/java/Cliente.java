@@ -1,25 +1,18 @@
 
-public class Cliente{
+public class Cliente extends Usuario{
     
-    private String nome;
     private String email;
     private String dataNasc;
-    
-    public Cliente(){}
-    public Cliente(String nome, String email, String dataNasc){
-    
-        this.nome = nome;
+
+    public Cliente(){
+        super("","");
+    }
+    public Cliente(String email, String dataNasc){
+        super("", "");
         this.email = email;
         this.dataNasc = dataNasc;
     }
-    
-    public String getNome(){
-        return this.nome;
-    }
-    public void setNome(String nome){
-        this.nome = nome;
-    }
-    
+
     public String getEmail(){
         return this.email;
     }

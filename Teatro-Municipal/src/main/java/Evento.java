@@ -90,7 +90,7 @@ public class Evento
         }
     }
 
-    public int assentosDisponiveis(){
+    public int totalAssentosDisponiveis(){
 
         return assentosDisponiveis.size();
     }

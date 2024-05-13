@@ -27,4 +27,27 @@ public class Teatro
     public boolean comprarIngresso(Evento evento, Cliente cliente, Assento assento){
         return evento.verificaIngressoVendido(cliente, assento);
     }
+
+    public String relatorio(){
+        Evento evento = new Evento();
+        String rel;
+        rel = "Relatorio de vendas: \n";
+        int ingressosVendidos = 0;
+        for (Evento event : eventos){
+            ingressosVendidos = event.totalAssentosDisponiveis();
+            int assentosOcupados = 0;
+
+            for (Assento assento : event.getAssentosDisponiveis()){
+                assentosOcupados += event.totalAssentosDisponiveis();
+            }
+            int aux = ingressosVendidos - event.totalAssentosDisponiveis();
+            rel += "\nEvento: " + event.getNome() + "\n";
+            rel +="Ingresso Vendidos: " + aux + "\n";
+            rel += "Assentos Ocupados: " + aux + "\n";
+        }
+        rel += "R$ " + evento.getPrecoIngresso() * ingressosVendidos + " arrecadados!";
+
+        return rel;
+
+    }
 }

@@ -27,7 +27,9 @@ public class Main {
                     int menuFunc = menuFuncionario();
 
                     if(menuFunc == 1){
+                        System.out.println("Informações do cliente: ");
                         cadastrarCliente(ler);
+                        eventosDisponiveis(teatro);
                         agendaEventos(teatro);
 
                         System.out.println("Informe o número do evento escolhido pelo cliente!");
@@ -56,7 +58,7 @@ public class Main {
                     }else if(menuFunc == 2){
                         cadastrarEvento(ler);
                     }else if(menuFunc == 3){
-
+                        System.out.println(teatro.relatorio());
                     }else if(menuFunc == 0){
                         break;
                     }
@@ -72,7 +74,7 @@ public class Main {
 
                         Evento evento = eventoEscolhido(ler, teatro);
 
-                        if (evento.assentosDisponiveis() > 0) {
+                        if (evento.totalAssentosDisponiveis() > 0) {
                             System.out.println("Comprar ingresso: (S)im / (N)ão");
                             String le = ler.nextLine();
                         }
@@ -99,7 +101,7 @@ public class Main {
 
                 Evento evento = eventoEscolhido(ler, teatro);
 
-                if (evento.assentosDisponiveis() > 0) {
+                if (evento.totalAssentosDisponiveis() > 0) {
                     System.out.println("Comprar ingresso: (S)im / (N)ão");
                     String le = ler.nextLine();
                 }
@@ -221,7 +223,7 @@ public class Main {
             System.out.println("Peça: " + evento.getNome());
             System.out.println("Data: " + evento.getData() + " - Horario: " + evento.getHorario());
             System.out.println("Descrição: " + evento.getDescricao());
-            System.out.println("Assentos disponiveis: " + evento.assentosDisponiveis());
+            System.out.println("Assentos disponiveis: " + evento.totalAssentosDisponiveis());
             System.out.println();
         }
     }

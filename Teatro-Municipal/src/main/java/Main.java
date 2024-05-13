@@ -4,17 +4,19 @@ public class Main {
     public static void main(String[] args) {
         Scanner ler = new Scanner(System.in);
         Teatro teatro = new Teatro();
+
         Assento assentoEscolhido = new Assento();
         Cliente cliente = new Cliente();
         Ingresso ingresso = new Ingresso();
         Usuario usuario = new Usuario();
+        eventosDisponiveis(teatro);
+
 
         System.out.println("\n--- Bem-vindo ao Teatro! ---\n");
 
         while (true){
             System.out.println("###  Ja possui cadastro: (S)im / (N)ão");
             String cadastro = ler.nextLine();
-            ler.nextLine();
 
             if(cadastro.equalsIgnoreCase("s")){
                 System.out.println("### Informe seu nome de usuario: ");
@@ -29,7 +31,6 @@ public class Main {
                     if(menuFunc == 1){
                         System.out.println("Informações do cliente: ");
                         cadastrarCliente(ler);
-                        eventosDisponiveis(teatro);
                         agendaEventos(teatro);
 
                         System.out.println("Informe o número do evento escolhido pelo cliente!");
@@ -95,7 +96,6 @@ public class Main {
 
             if(menu == 1) {
 
-                eventosDisponiveis(teatro);
 
                 agendaEventos(teatro);
 
@@ -211,8 +211,7 @@ public class Main {
         int numeroAssentoEscolhido = ler.nextInt();
         ler.nextLine();
 
-        assentoEscolhido = verificaAssentoDisponivel(eventoEscolhido, numeroAssentoEscolhido);
-        return assentoEscolhido;
+        return verificaAssentoDisponivel(eventoEscolhido, numeroAssentoEscolhido);
     }
 
     private static void agendaEventos(Teatro teatro) {

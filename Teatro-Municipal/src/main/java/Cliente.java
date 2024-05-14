@@ -1,14 +1,13 @@
-
 public class Cliente extends Usuario{
-    
+
     private String email;
     private String dataNasc;
 
     public Cliente(){
-        super("","");
+        super("","",0);
     }
     public Cliente(String email, String dataNasc){
-        super("", "");
+        super("", "", 0);
         this.email = email;
         this.dataNasc = dataNasc;
     }
@@ -19,7 +18,7 @@ public class Cliente extends Usuario{
     public void setEmail(String email){
         this.email = email;
     }
-    
+
     public String getDataNasc(){
         return this.dataNasc;
     }

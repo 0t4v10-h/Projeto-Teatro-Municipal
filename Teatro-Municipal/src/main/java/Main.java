@@ -41,20 +41,9 @@ public class Main {
 
                         escolherAssento(evento,ler);
 
-                        int pagamento = pagarIngresso(ler);
+                        int pagamento = pagarIngresso(evento,ler);
 
-                        if(pagamento == 1 || pagamento == 2){
-                            System.out.println("Pagamento realizado!");
-                            System.out.println("Ingresso vendido!");
-                        }
-                        if (pagamento == 3){
-                            System.out.println("O cliente pode parcelar até 3x sem juros");
-                            System.out.println("Cliente parcelou em quantas vezes?");
-                            int parcelas = ler.nextInt();
-                            ler.nextLine();
-                            System.out.println(evento.getPrecoIngresso() / parcelas + "R$ por mês");
-                            System.out.println("Ingresso Vendido");
-                        }
+
 
                     }else if(menuFunc == 2){
                         cadastrarEvento(ler);
@@ -81,6 +70,8 @@ public class Main {
                         }
 
                         assentoEscolhido = escolherAssento(evento, ler);
+
+                        int pagamento = pagarIngresso(evento,ler);
 
                         ingressoComprado(assentoEscolhido, teatro, evento, cliente);
                     }
@@ -167,13 +158,25 @@ public class Main {
         ler.nextDouble();
     }
 
-    private static int pagarIngresso(Scanner ler) {
+    private static int pagarIngresso(Evento evento, Scanner ler) {
         System.out.println("Forma de Pagamento: ");
         System.out.println("## 1) Dinheiro");
         System.out.println("## 2) Pix");
         System.out.println("## 3) Cartão");
         int pagamento = ler.nextInt();
         ler.nextLine();
+        if(pagamento == 1 || pagamento == 2){
+            System.out.println("Pagamento realizado!");
+            System.out.println("Ingresso vendido!");
+        }
+        if (pagamento == 3){
+            System.out.println("Opção de parcela: Em até 3x sem juros");
+            System.out.println("Em quantas vezes deseja parcelar?");
+            int parcelas = ler.nextInt();
+            ler.nextLine();
+            System.out.println(evento.getPrecoIngresso() / parcelas + "R$ por mês");
+            System.out.println("Ingresso Vendido");
+        }
         return pagamento;
     }
 

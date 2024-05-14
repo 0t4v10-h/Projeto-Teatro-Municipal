@@ -20,9 +20,6 @@ public class Assento
        return numeroAssento;
    }
    public void setNumeroAssento(int numeroAssento){
-
        this.numeroAssento = numeroAssento;
    }
-
-
 }

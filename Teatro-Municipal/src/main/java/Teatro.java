@@ -34,6 +34,7 @@ public class Teatro
     public String relatorio(){
         int totalIngressosVendidos = 0;
         int totalAssentosOcupados = 0;
+        double totalValorObtido = 0.0;
 
         String rel = "\nRelatorio de vendas: \n";
         for (int i = 0; i < eventos.size(); i++){
@@ -45,14 +46,19 @@ public class Teatro
             int assentosOcupados = event.getCapacidade() - event.totalAssentosDisponiveis();
             totalAssentosOcupados += assentosOcupados;
 
+            double valorObtido = ingressosVendidos * event.getPrecoIngresso();
+            totalValorObtido += valorObtido;
+
             rel += "\nEvento: " + event.getNome() + "\n";
-            rel +="Ingresso Vendidos: " + ingressosVendidos + "\n";
-            rel += "Assentos Ocupados: " + assentosOcupados + "\n";
+            rel +="Ingresso Vendidos: " +ingressosVendidos+ "\n";
+            rel += "Assentos Ocupados: " +assentosOcupados+ "\n";
+            rel += "Valor Obtido: " +valorObtido+ "\n";
         }
 
         rel += "\nTotal de Eventos: " +getEvento().size();
         rel += "\nTotal de Ingressos Vendidos: " +totalIngressosVendidos;
         rel += "\nTotal de Assentos Ocupados: " +totalAssentosOcupados;
+        rel += "\nTotal do Valor Obtido: " +totalValorObtido;
 
         return rel;
     }
@@ -65,26 +71,3 @@ public class Teatro
         this.totalEventosCadastrados = totalEventosCadastrados;
     }
 }
-
-
-/*  public String relatorio(){
-        Evento evento = new Evento();
-        String rel;
-        rel = "Relatorio de vendas: \n";
-        int ingressosVendidos = 0;
-        for (Evento event : eventos){
-            ingressosVendidos = event.totalAssentosDisponiveis();
-            int assentosOcupados = 0;
-
-            for (Assento assento : event.getAssentosDisponiveis()){
-                assentosOcupados += event.totalAssentosDisponiveis();
-            }
-            int aux = ingressosVendidos - event.totalAssentosDisponiveis();
-            rel += "\nEvento: " + event.getNome() + "\n";
-            rel +="Ingresso Vendidos: " + aux + "\n";
-            rel += "Assentos Ocupados: " + aux + "\n";
-        }
-        rel += "R$ " + evento.getPrecoIngresso() * ingressosVendidos + " arrecadados!";
-
-        return rel;
-    }  */

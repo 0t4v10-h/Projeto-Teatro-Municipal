@@ -122,9 +122,9 @@ public class Main {
                     System.out.println("Data: " + evento.getData() + " - Horario: " + evento.getHorario());
 
                     if (precoIngresso(evento, cliente)) {
-                        System.out.println("Preço: " + ingresso.getPreco() * 0.50);
+                        System.out.println("Preço: " + evento.getPrecoIngresso() * 0.50);
                     } else {
-                        System.out.println("Preço: " + ingresso.getPreco());
+                        System.out.println("Preço: " + evento.getPrecoIngresso());
                     }
                     } /*else {
                        System.out.println("Não há mais ingressos disponiveis para este evento.");
@@ -274,7 +274,7 @@ public class Main {
 
         public static void eventosDisponiveis(Teatro teatro) {
 
-            Evento e1 = new Evento(1, "Espetaculo Rei Leão", "05/06/2024", "18:00", "O espetáculo musical é narrado pelo sábio Rafiki que conta a história de Simba, o principe dos leões e herdeiro do trono.", 50, 100);
+            Evento e1 = new Evento(1, "Espetaculo Rei Leão", "05/06/2024", "18:00", "O espetáculo musical é narrado pelo sábio Rafiki que conta a história de Simba, o principe dos leões e herdeiro do trono.", 50, 100.0);
             teatro.addEvento(e1);
 
             Evento e2 = new Evento(2, "Frozen: O musical", "06/06/2024", "20:00", "Um musical baseado no filme da Disney, Frozen.", 50, 100);

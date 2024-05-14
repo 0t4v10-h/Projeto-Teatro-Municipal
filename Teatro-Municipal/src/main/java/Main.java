@@ -304,10 +304,26 @@ public class Main {
         }
 
         public static boolean precoIngresso(Evento evento, Cliente cliente){
-            if(evento.getData().equals(cliente.getDataNasc())){
+            String dataNascimentoCliente = cliente.getDataNasc();
+            String dataEvento = evento.getData();
+
+            String[] parteDataNascimento = dataNascimentoCliente.split("/");
+            int diaNascimento = Integer.parseInt(parteDataNascimento[0]);
+            int mesNascimento = Integer.parseInt(parteDataNascimento[1]);
+
+            String[] parteDataEvento = dataEvento.split("/");
+            int diaEvento = Integer.parseInt(parteDataEvento[0]);
+            int mesEvento = Integer.parseInt(parteDataEvento[1]);
+
+            return diaNascimento == diaEvento && mesNascimento == mesEvento;
+
+
+           /* if(dataNascimentoCliente.equals(dataEvento)){
+
                 return true;
             } else{
                 return false;
+        }*/
+
         }
     }
-}

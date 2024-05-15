@@ -42,6 +42,28 @@ public class Evento
         return disponiveis;
     }
 
+    public static Assento verificaAssentoDisponivel(Evento eventoEscolhido, int numeroAssentoEscolhido) {
+        Assento assentoEscolhido;
+        assentoEscolhido = null;
+        for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
+            if (assento.getNumeroAssento() == numeroAssentoEscolhido) {
+                assentoEscolhido = assento;
+                break;
+            }
+        }
+        return assentoEscolhido;
+    }
+
+    public  void comprarIngresso(Assento assentoEscolhido, Teatro teatro, Evento evento, Cliente cliente) {
+        if (assentoEscolhido != null) {
+            if (verificaIngressoVendido(cliente, assentoEscolhido)) {
+                System.out.println("Ingresso comprado com sucesso!");
+            }
+        } else {
+            System.out.println("Assento inválido. Tente novamente.");
+        }
+    }
+
     public boolean verificaIngressoVendido(Cliente cliente, Assento assento){
         if(assentosDisponiveis.contains(assento)){
             assentosDisponiveis.remove(assento);

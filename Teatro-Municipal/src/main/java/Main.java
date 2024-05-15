@@ -130,7 +130,7 @@ public class Main {
 
                 int pagamento = pagarIngresso(evento,ler);
 
-                ingressoComprado(assentoEscolhido, teatro, evento, cliente);
+                evento.comprarIngresso(assentoEscolhido, teatro, evento, cliente);
 
                 if(comprarNovoIngresso(ler)){
                     iteracaoCliente(teatro, ler, cliente);
@@ -149,7 +149,7 @@ public class Main {
             if(le.equalsIgnoreCase("s")){
                 evento = eventoEscolhido(ler, teatro);
                 assentoEscolhido = escolherAssento(evento, ler);
-                ingressoComprado(assentoEscolhido, teatro, evento, cliente);
+                evento.comprarIngresso(assentoEscolhido, teatro, evento, cliente);
             }
             return true;
         }
@@ -207,31 +207,12 @@ public class Main {
         int numeroAssentoEscolhido = ler.nextInt();
         ler.nextLine();
 
-        return verificaAssentoDisponivel(eventoEscolhido, numeroAssentoEscolhido);
+        return Evento.verificaAssentoDisponivel(eventoEscolhido, numeroAssentoEscolhido);
     }
 
-    private static Assento verificaAssentoDisponivel(Evento eventoEscolhido, int numeroAssentoEscolhido) {
-        Assento assentoEscolhido;
-        assentoEscolhido = null;
-        for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
-            if (assento.getNumeroAssento() == numeroAssentoEscolhido) {
-                assentoEscolhido = assento;
-                break;
-            }
-        }
-        return assentoEscolhido;
-    }
 
     //Ingresso
-    private static void ingressoComprado(Assento assentoEscolhido, Teatro teatro, Evento evento, Cliente cliente) {
-        if (assentoEscolhido != null) {
-            if (teatro.comprarIngresso(evento, cliente, assentoEscolhido)) {
-                System.out.println("Ingresso comprado com sucesso!");
-            }
-        } else {
-            System.out.println("Assento inválido. Tente novamente.");
-        }
-    }
+
 
     private static boolean comprarNovoIngresso(Scanner ler) {
         System.out.println("### Deseja comprar outro ingresso: (S)im / (N)ão");
@@ -264,6 +245,7 @@ public class Main {
         }
         return pagamento;
     }
+
     public static boolean precoIngressoComDesconto(Evento evento, Cliente cliente){
         String dataNascimentoCliente = cliente.getDataNasc();
         String dataEvento = evento.getData();

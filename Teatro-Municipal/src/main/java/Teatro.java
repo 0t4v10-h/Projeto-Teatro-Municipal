@@ -39,10 +39,6 @@ public class Teatro
         this.clientes.add(clientes);
     }*/
 
-    public boolean comprarIngresso(Evento evento, Cliente cliente, Assento assento){
-        return evento.verificaIngressoVendido(cliente, assento);
-    }
-
     public void cadastrarEvento(Scanner ler) {
         Evento evento = new Evento();
 

@@ -4,6 +4,7 @@ public class Teatro
 {
     private String nome;
     private ArrayList<Evento> eventos;
+    //private ArrayList<Cliente> clientes;
     private int totalEventosCadastrados;
     
     public Teatro(){
@@ -13,6 +14,7 @@ public class Teatro
         this.nome = nome;
         this.totalEventosCadastrados = totalEventosCadastrados;
         eventos = new ArrayList<>();
+     //   clientes = new ArrayList<>();
     }
     
     public String getNome(){
@@ -26,6 +28,14 @@ public class Teatro
         this.eventos.add(eventos);
         setTotalEventosCadastrados(+1);
     }
+
+    /*public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void addCliente(Cliente clientes) {
+        this.clientes.add(clientes);
+    }*/
 
     public boolean comprarIngresso(Evento evento, Cliente cliente, Assento assento){
         return evento.verificaIngressoVendido(cliente, assento);

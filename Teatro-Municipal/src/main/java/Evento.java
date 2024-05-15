@@ -11,7 +11,9 @@ public class Evento
     private ArrayList<Assento> assentosDisponiveis;
     private double precoIngresso;
 
-    public Evento(){}
+    public Evento(){
+        this.assentosDisponiveis = new ArrayList<>();
+    }
     public Evento(int numero, String nome, String data, String horario, String descricao, int capacidade, double precoIngresso){
         this.numero = numero;
         this.nome = nome;
@@ -21,15 +23,37 @@ public class Evento
         this.capacidade = capacidade;
         this.assentosDisponiveis = new ArrayList<>();
         this.precoIngresso = precoIngresso;
+        inicializaAssentos();
+    }
+
+    private void inicializaAssentos(){
         for(int i = 1; i <= capacidade; i++){
             this.assentosDisponiveis.add(new Assento(i));
+        }
+    }
+
+    public int totalAssentosDisponiveis(){
+        int disponiveis = 0;
+        for (Assento assento : assentosDisponiveis) {
+            if (!assento.isOcupado()) {
+                disponiveis++;
+            }
+        }
+        return disponiveis;
+    }
+
+    public boolean verificaIngressoVendido(Cliente cliente, Assento assento){
+        if(assentosDisponiveis.contains(assento)){
+            assentosDisponiveis.remove(assento);
+            return true;
+        } else{
+            return false;
         }
     }
 
     public double getPrecoIngresso() {
         return precoIngresso;
     }
-
     public void setPrecoIngresso(double ingresso) {
         this.precoIngresso = precoIngresso;
     }
@@ -79,19 +103,5 @@ public class Evento
     public ArrayList<Assento> getAssentosDisponiveis() {
 
         return assentosDisponiveis;
-    }
-
-    public boolean verificaIngressoVendido(Cliente cliente, Assento assento){
-        if(assentosDisponiveis.contains(assento)){
-            assentosDisponiveis.remove(assento);
-            return true;
-        } else{
-            return false;
-        }
-    }
-
-    public int totalAssentosDisponiveis(){
-
-        return assentosDisponiveis.size();
     }
 }

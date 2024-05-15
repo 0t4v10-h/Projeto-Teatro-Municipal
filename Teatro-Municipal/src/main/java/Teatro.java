@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Teatro
 {
@@ -24,6 +25,7 @@ public class Teatro
     public ArrayList<Evento> getEvento(){
         return this.eventos;
     }
+
     public void addEvento(Evento eventos){
         this.eventos.add(eventos);
         setTotalEventosCadastrados(+1);
@@ -40,6 +42,38 @@ public class Teatro
     public boolean comprarIngresso(Evento evento, Cliente cliente, Assento assento){
         return evento.verificaIngressoVendido(cliente, assento);
     }
+
+    public void cadastrarEvento(Scanner ler) {
+        Evento evento = new Evento();
+
+        System.out.println("### Cadastrar novo evento!\n");
+        System.out.println("### Número: ");
+        evento.setNumero(ler.nextInt());
+        ler.nextLine();
+
+        System.out.println("### Nome: ");
+        evento.setNome(ler.nextLine());
+
+        System.out.println("### Data: ");
+        evento.setData(ler.nextLine());
+
+        System.out.println("### Horario: ");
+        evento.setHorario(ler.nextLine());
+
+        System.out.println("### Descrição: ");
+        evento.setDescricao(ler.nextLine());
+
+        System.out.println("### Capacidade: ");
+        evento.setCapacidade(ler.nextInt());
+        ler.nextLine();
+
+        System.out.println("### Preço do ingresso: ");
+        evento.setPrecoIngresso(ler.nextDouble());
+        ler.nextLine();
+
+        addEvento(evento);
+    }
+
 
     public String relatorio(){
         int totalIngressosVendidos = 0;

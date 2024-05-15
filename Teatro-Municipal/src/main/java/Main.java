@@ -47,30 +47,20 @@ public class Main {
 
                     if(menuFunc == 1){
                         System.out.println("Informações do cliente: ");
+
                         cadastrarCliente(ler);
-                        agendaEventos(teatro);
-
-                        System.out.println("Informe o número do evento escolhido pelo cliente!");
-                        int numeroEventoEscolhido = ler.nextInt();
-                        ler.nextLine();
-
-                        Evento evento = escolherEvento(teatro, numeroEventoEscolhido);
-
-                        escolherAssento(evento,ler);
-
-                        int pagamento = pagarIngresso(evento,ler);
-
-                        if(comprarNovoIngresso(ler)){
-                            break;
-                        }
+                        if (iteracaoFuncionario(teatro, ler)) break;
 
                     }else if(menuFunc == 2){
-                        cadastrarEvento(ler);
+                        teatro.cadastrarEvento(ler);
                         System.out.println("Evento cadastrado com sucesso!");
+
+                        agendaEventos(teatro);
+                        menuFuncionario();
+
+
                     }else if(menuFunc == 3){
                         System.out.println(teatro.relatorio());
-                    }else if(menuFunc == 0){
-                        break;
                     }
                 }else{
                     System.out.println("Senha Invalida!");
@@ -82,7 +72,8 @@ public class Main {
                 int menu = menuCliente();
 
                 if (iteracaoCliente(teatro, ler, cliente)) break;
-            }else{
+            }else if(login == 3){
+                System.out.println("Obrigado pela visita, volte sempre!!!");
                 break;
             }
         }
@@ -101,6 +92,27 @@ public class Main {
 
         Evento e4 = new Evento(4, "Romeu e Julieta", "08/06/2024", "18:30", "Romeu e Julieta é uma tragédia sobre dois adolescentes cuja morte acaba unindo suas famílias, outrora em pé de guerra.", 50, 100);
         teatro.addEvento(e4);
+    }
+
+
+    private static boolean iteracaoFuncionario(Teatro teatro, Scanner ler) {
+        agendaEventos(teatro);
+
+        System.out.println("Informe o número do evento escolhido pelo cliente!");
+        int numeroEventoEscolhido = ler.nextInt();
+        ler.nextLine();
+
+        Evento evento = escolherEvento(teatro, numeroEventoEscolhido);
+
+        escolherAssento(evento, ler);
+
+        int pagamento = pagarIngresso(evento, ler);
+
+        if(comprarNovoIngresso(ler)){
+            return iteracaoFuncionario(teatro, ler);
+        }else {
+            return false;
+        }
     }
 
     private static boolean iteracaoCliente(Teatro teatro, Scanner ler, Cliente cliente) {
@@ -182,34 +194,7 @@ public class Main {
         return evento;
     }
 
-    private static void cadastrarEvento(Scanner ler) {
-        Evento evento = new Evento();
 
-        System.out.println("### Cadastrar novo evento!\n");
-        System.out.println("### Número: ");
-        evento.setNumero(ler.nextInt());
-        ler.nextLine();
-
-        System.out.println("### Nome: ");
-        evento.setNome(ler.nextLine());
-
-        System.out.println("### Data: ");
-        evento.setData(ler.nextLine());
-
-        System.out.println("### Horario: ");
-        evento.setHorario(ler.nextLine());
-
-        System.out.println("### Descrição: ");
-        evento.setDescricao(ler.nextLine());
-
-        System.out.println("### Capacidade: ");
-        evento.setCapacidade(ler.nextInt());
-        ler.nextInt();
-
-        System.out.println("### Preço do ingresso: ");
-        evento.setPrecoIngresso(ler.nextDouble());
-        ler.nextDouble();
-    }
 
     //Assento
     private static Assento escolherAssento(Evento eventoEscolhido, Scanner ler) {
@@ -337,7 +322,7 @@ public class Main {
     public static int menuFuncionario() {
         Scanner ler = new Scanner(System.in);
 
-        System.out.println("### MENU PRINCIPAL");
+        System.out.println("### MENU PRINCIPAL (FUNCIONARIO)");
         System.out.println("## 1) Atender cliente");
         System.out.println("## 2) Cadastrar evento");
         System.out.println("## 3) Gerar relatorio");

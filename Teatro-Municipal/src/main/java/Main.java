@@ -128,10 +128,6 @@ public class Main {
             if(le.equalsIgnoreCase("s")){
                 assentoEscolhido = escolherAssento(evento, ler);
 
-                if (precoIngressoComDesconto(evento,cliente)){
-                    System.out.println();
-                }
-
                 int pagamento = pagarIngresso(evento,cliente,ler);
 
                 evento.comprarIngresso(assentoEscolhido, teatro, evento, cliente);
@@ -261,15 +257,12 @@ public class Main {
     }
 
     public static boolean precoIngressoComDesconto(Evento evento, Cliente cliente){
-        if (cliente == null || cliente.getDataNasc() == null){
-            return false;
-        }else if (evento == null || evento.getData() == null){
-            return false;
-        }
+
         String dataNascimentoCliente = cliente.getDataNasc();
         String dataEvento = evento.getData();
-
+        System.out.println(cliente.getDataNasc());
         String[] parteDataNascimento = dataNascimentoCliente.split("/");
+
         int diaNascimento = Integer.parseInt(parteDataNascimento[0]);
         int mesNascimento = Integer.parseInt(parteDataNascimento[1]);
 

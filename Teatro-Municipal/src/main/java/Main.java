@@ -48,8 +48,8 @@ public class Main {
                     if(menuFunc == 1){
                         System.out.println("Informações do cliente: ");
 
-                        cadastrarCliente(ler);
-                        if (iteracaoFuncionario(teatro, ler)) break;
+                        cadastrarCliente(teatro,ler);
+                        if (iteracaoFuncionario(teatro,cliente,ler)) break;
 
                     }else if(menuFunc == 2){
                         teatro.cadastrarEvento(ler);
@@ -67,7 +67,7 @@ public class Main {
                 }
             }else if(login == 2){
                 System.out.println("\n### Cadastro: ");
-                cadastrarCliente(ler);
+                cadastrarCliente(teatro,ler);
 
                 int menu = menuCliente();
 
@@ -95,7 +95,7 @@ public class Main {
     }
 
 
-    private static boolean iteracaoFuncionario(Teatro teatro, Scanner ler) {
+    private static boolean iteracaoFuncionario(Teatro teatro,Cliente cliente, Scanner ler) {
         agendaEventos(teatro);
 
         System.out.println("Informe o número do evento escolhido pelo cliente!");
@@ -106,10 +106,10 @@ public class Main {
 
         escolherAssento(evento, ler);
 
-        int pagamento = pagarIngresso(evento, ler);
+        int pagamento = pagarIngresso(evento,cliente,ler);
 
         if(comprarNovoIngresso(ler)){
-            return iteracaoFuncionario(teatro, ler);
+            return iteracaoFuncionario(teatro,cliente, ler);
         }else {
             return false;
         }
@@ -128,7 +128,11 @@ public class Main {
             if(le.equalsIgnoreCase("s")){
                 assentoEscolhido = escolherAssento(evento, ler);
 
-                int pagamento = pagarIngresso(evento,ler);
+                if (precoIngressoComDesconto(evento,cliente)){
+                    System.out.println();
+                }
+
+                int pagamento = pagarIngresso(evento,cliente,ler);
 
                 evento.comprarIngresso(assentoEscolhido, teatro, evento, cliente);
 
@@ -186,6 +190,10 @@ public class Main {
         int numeroEventoEscolhido = ler.nextInt();
         ler.nextLine();
 
+        if (numeroEventoEscolhido == 0){
+            menuCliente();
+        }
+
         Evento evento = escolherEvento(teatro, numeroEventoEscolhido);
 
         if (evento != null) {
@@ -225,13 +233,19 @@ public class Main {
         }
     }
 
-    private static int pagarIngresso(Evento evento,Scanner ler) {
+    private static int pagarIngresso(Evento evento,Cliente cliente, Scanner ler) {
         System.out.println("Forma de Pagamento: ");
         System.out.println("## 1) Dinheiro");
         System.out.println("## 2) Pix");
         System.out.println("## 3) Cartão");
         int pagamento = ler.nextInt();
         ler.nextLine();
+
+        if(precoIngressoComDesconto(evento,cliente)){
+            evento.setPrecoIngresso(evento.getPrecoIngresso() * 0.50);
+            System.out.println("Feliz Aniversario!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
+            System.out.println("Você ganhou um desconto de 50%.");
+        }
 
         if(pagamento == 1 || pagamento == 2){
             System.out.println("Pagamento realizado!");
@@ -247,6 +261,11 @@ public class Main {
     }
 
     public static boolean precoIngressoComDesconto(Evento evento, Cliente cliente){
+        if (cliente == null || cliente.getDataNasc() == null){
+            return false;
+        }else if (evento == null || evento.getData() == null){
+            return false;
+        }
         String dataNascimentoCliente = cliente.getDataNasc();
         String dataEvento = evento.getData();
 
@@ -271,7 +290,7 @@ public class Main {
 
 
     //Cliente
-    public static void cadastrarCliente(/*Teatro teatro,*/ Scanner ler){
+    public static void cadastrarCliente(Teatro teatro, Scanner ler){
         Cliente cliente = new Cliente();
 
         System.out.println("### Nome: ");
@@ -283,11 +302,14 @@ public class Main {
         System.out.println("### Data de nascimento: ");
         cliente.setDataNasc(ler.nextLine());
 
+        System.out.println("### Nome de usuario: ");
+        cliente.setNomeUsuario(ler.nextLine());
+
         System.out.println("### Senha (4 números diferentes de 0): ");
         cliente.setSenha(ler.nextInt());
         ler.nextLine();
 
-       // teatro.addCliente(cliente);
+       teatro.addCliente(cliente);
     }
 
     //Menu

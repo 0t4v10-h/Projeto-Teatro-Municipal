@@ -5,17 +5,18 @@ public class Teatro
 {
     private String nome;
     private ArrayList<Evento> eventos;
-    //private ArrayList<Cliente> clientes;
+    private ArrayList<Cliente> clientes;
     private int totalEventosCadastrados;
     
     public Teatro(){
         eventos = new ArrayList<>();
+        clientes = new ArrayList<>();
     }
     public Teatro(String nome, int totalEventosCadastrados){
         this.nome = nome;
         this.totalEventosCadastrados = totalEventosCadastrados;
         eventos = new ArrayList<>();
-     //   clientes = new ArrayList<>();
+        clientes = new ArrayList<>();
     }
     
     public String getNome(){
@@ -31,13 +32,13 @@ public class Teatro
         setTotalEventosCadastrados(+1);
     }
 
-    /*public ArrayList<Cliente> getClientes() {
+    public ArrayList<Cliente> getClientes() {
         return clientes;
     }
 
     public void addCliente(Cliente clientes) {
         this.clientes.add(clientes);
-    }*/
+    }
 
     public void cadastrarEvento(Scanner ler) {
         Evento evento = new Evento();

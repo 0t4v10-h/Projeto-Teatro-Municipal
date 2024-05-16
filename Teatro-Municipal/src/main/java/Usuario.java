@@ -18,6 +18,7 @@ public class Usuario {
     }
 
     public int getSenha() {
+
         return senha;
     }
     public void setSenha(int senha) {
@@ -25,10 +26,12 @@ public class Usuario {
     }
 
     public String getNomeUsuario() {
+
         return nomeUsuario;
     }
 
     public void setNomeUsuario(String nomeUsuario) {
+
         this.nomeUsuario = nomeUsuario;
     }
 }

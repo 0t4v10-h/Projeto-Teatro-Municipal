@@ -1,16 +1,13 @@
 import java.util.Scanner;
 
 public class Main {
-    
+
     public static void main(String[] args) {
         Scanner ler = new Scanner(System.in);
         Teatro teatro = new Teatro();
 
-        Assento assentoEscolhido = new Assento();
-        Cliente cliente = new Cliente();
-        Ingresso ingresso = new Ingresso();
-        Usuario usuario = new Usuario();
         eventosDisponiveis(teatro);
+        clientesCadastrados(teatro);
 
         System.out.println("\n--- Bem-vindo ao Teatro Municipal de Juiz de Fora! ---\n");
 
@@ -23,20 +20,15 @@ public class Main {
             ler.nextLine();
 
             if(login == 1){
-                System.out.println("### Informe seu nome de usuario: ");
-                usuario.setNomeUsuario(ler.nextLine());
-
-                System.out.println("### Informe sua senha: ");
-                usuario.setSenha(ler.nextInt());
-                ler.nextLine();
+                Usuario usuario = loginUsuario(ler, teatro);
 
                 if(usuario.getSenha() >= 1111 && usuario.getSenha() <= 9999){
                     int menu = menuCliente();
 
                     if(menu == 1) {
-                        System.out.println("Que bom ter você de volta! ");
+                        System.out.println("\nQue bom ter você de volta! ");
 
-                        if (iteracaoCliente(teatro, ler, cliente)) break;
+                        if (iteracaoCliente(teatro,usuario, ler)) break;
                     }else if (menu == 0) {
                         System.out.println("Ate Mais!!");
                         break;
@@ -48,8 +40,8 @@ public class Main {
                     if(menuFunc == 1){
                         System.out.println("Informações do cliente: ");
 
-                        cadastrarCliente(teatro,ler);
-                        if (iteracaoFuncionario(teatro,cliente,ler)) break;
+                        cadastrarCliente(teatro, ler);
+                        if (iteracaoFuncionario(teatro,usuario, ler)) break;
 
                     }else if(menuFunc == 2){
                         teatro.cadastrarEvento(ler);
@@ -61,22 +53,50 @@ public class Main {
 
                     }else if(menuFunc == 3){
                         System.out.println(teatro.relatorio());
+                        break;
                     }
                 }else{
                     System.out.println("Senha Invalida!");
                 }
             }else if(login == 2){
-                System.out.println("\n### Cadastro: ");
-                cadastrarCliente(teatro,ler);
+                cadastrarCliente(teatro, ler);
 
-                int menu = menuCliente();
+                menuCliente();
+                Usuario usuario = loginUsuario(ler, teatro);
 
-                if (iteracaoCliente(teatro, ler, cliente)) break;
+                if (iteracaoCliente(teatro,usuario, ler)) break;
             }else if(login == 3){
                 System.out.println("Obrigado pela visita, volte sempre!!!");
                 break;
             }
         }
+    }
+
+    private static Usuario loginUsuario(Scanner ler, Teatro teatro) {
+        Usuario usuario = null;
+        boolean loginCorreto = false;
+
+        while(!loginCorreto) {
+            System.out.println("### Informe seu nome de usuario: ");
+            String nomeUsuario = ler.nextLine();
+            usuario = teatro.averiguarUsuarios(nomeUsuario);
+
+            if(usuario != null){
+                System.out.println("### Informe sua senha: ");
+                int senha = ler.nextInt();
+                ler.nextLine();
+
+                if(usuario.getSenha() == senha){
+                    System.out.println("### Login realizado com sucesso!\n");
+                    loginCorreto = true;
+                }else{
+                    System.out.println("### Senha incorreta! Tente novamente.");
+                }
+            }else{
+                System.out.println("### Nome de usuario não encontrado!");
+            }
+        }
+        return usuario;
     }
 
     public static void eventosDisponiveis(Teatro teatro) {
@@ -95,7 +115,7 @@ public class Main {
     }
 
 
-    private static boolean iteracaoFuncionario(Teatro teatro,Cliente cliente, Scanner ler) {
+    private static boolean iteracaoFuncionario(Teatro teatro,Usuario usuario, Scanner ler) {
         agendaEventos(teatro);
 
         System.out.println("Informe o número do evento escolhido pelo cliente!");
@@ -106,16 +126,16 @@ public class Main {
 
         escolherAssento(evento, ler);
 
-        int pagamento = pagarIngresso(evento,cliente,ler);
+        pagarIngresso(evento, usuario, ler);
 
         if(comprarNovoIngresso(ler)){
-            return iteracaoFuncionario(teatro,cliente, ler);
+            return iteracaoFuncionario(teatro,usuario, ler);
         }else {
             return false;
         }
     }
 
-    private static boolean iteracaoCliente(Teatro teatro, Scanner ler, Cliente cliente) {
+    private static boolean iteracaoCliente(Teatro teatro,Usuario usuario, Scanner ler) {
         Assento assentoEscolhido;
         agendaEventos(teatro);
 
@@ -128,12 +148,12 @@ public class Main {
             if(le.equalsIgnoreCase("s")){
                 assentoEscolhido = escolherAssento(evento, ler);
 
-                int pagamento = pagarIngresso(evento,cliente,ler);
+                pagarIngresso(evento, usuario, ler);
 
-                evento.comprarIngresso(assentoEscolhido, teatro, evento, cliente);
+                evento.comprarIngresso(assentoEscolhido, teatro, evento);
 
                 if(comprarNovoIngresso(ler)){
-                    iteracaoCliente(teatro, ler, cliente);
+                    iteracaoCliente(teatro,usuario, ler);
                 }else{
                     return false;
                 }
@@ -149,7 +169,7 @@ public class Main {
             if(le.equalsIgnoreCase("s")){
                 evento = eventoEscolhido(ler, teatro);
                 assentoEscolhido = escolherAssento(evento, ler);
-                evento.comprarIngresso(assentoEscolhido, teatro, evento, cliente);
+                evento.comprarIngresso(assentoEscolhido, teatro, evento);
             }
             return true;
         }
@@ -158,7 +178,7 @@ public class Main {
 
     //Evento
     private static void agendaEventos(Teatro teatro) {
-        System.out.println("Agenda de eventos: ");
+        System.out.println("\nAgenda de eventos: ");
         System.out.println("-------------------------------------------------");
         for (Evento evento : teatro.getEvento()) {
             System.out.println("Evento: " + evento.getNumero());
@@ -182,7 +202,7 @@ public class Main {
     }
 
     private static Evento eventoEscolhido(Scanner ler, Teatro teatro) {
-        System.out.println("Escolha o número do evento desejado ou digite 0 para sair:");
+        System.out.println("Escolha o número do evento desejado ou digite 0 para voltar:");
         int numeroEventoEscolhido = ler.nextInt();
         ler.nextLine();
 
@@ -214,9 +234,7 @@ public class Main {
         return Evento.verificaAssentoDisponivel(eventoEscolhido, numeroAssentoEscolhido);
     }
 
-
     //Ingresso
-
 
     private static boolean comprarNovoIngresso(Scanner ler) {
         System.out.println("### Deseja comprar outro ingresso: (S)im / (N)ão");
@@ -229,40 +247,39 @@ public class Main {
         }
     }
 
-    private static int pagarIngresso(Evento evento,Cliente cliente, Scanner ler) {
-        System.out.println("Forma de Pagamento: ");
+    private static int pagarIngresso(Evento evento, Usuario usuario,Scanner ler) {
+        System.out.println("\nForma de Pagamento: ");
         System.out.println("## 1) Dinheiro");
         System.out.println("## 2) Pix");
         System.out.println("## 3) Cartão");
         int pagamento = ler.nextInt();
         ler.nextLine();
 
-        if(precoIngressoComDesconto(evento,cliente)){
+        if(precoIngressoComDesconto(evento, usuario)){
             evento.setPrecoIngresso(evento.getPrecoIngresso() * 0.50);
-            System.out.println("Feliz Aniversario!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
+            System.out.println("\nFeliz Aniversario!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
             System.out.println("Você ganhou um desconto de 50%.");
         }
 
         if(pagamento == 1 || pagamento == 2){
-            System.out.println("Pagamento realizado!");
+            System.out.println("\nPagamento realizado!");
 
         }else if (pagamento == 3){
-            System.out.println("Possibilidade de pagamento: até 3x sem juros");
+            System.out.println("\nPossibilidade de pagamento: até 3x sem juros");
             System.out.println("Deseja parcelar de quantas vezes?");
             int parcelas = ler.nextInt();
             ler.nextLine();
-            System.out.println("R$" + evento.getPrecoIngresso() / parcelas + " por mês");
+            System.out.println("R$ " + evento.getPrecoIngresso() / parcelas + " por mês.");
         }
         return pagamento;
     }
 
-    public static boolean precoIngressoComDesconto(Evento evento, Cliente cliente){
-
-        String dataNascimentoCliente = cliente.getDataNasc();
+    public static boolean precoIngressoComDesconto(Evento evento, Usuario usuario){
+        Teatro teatro;
+        String dataNascimentoCliente = usuario.getDataNasc();
         String dataEvento = evento.getData();
-        System.out.println(cliente.getDataNasc());
-        String[] parteDataNascimento = dataNascimentoCliente.split("/");
 
+        String[] parteDataNascimento = dataNascimentoCliente.split("/");
         int diaNascimento = Integer.parseInt(parteDataNascimento[0]);
         int mesNascimento = Integer.parseInt(parteDataNascimento[1]);
 
@@ -271,38 +288,54 @@ public class Main {
         int mesEvento = Integer.parseInt(parteDataEvento[1]);
 
         return diaNascimento == diaEvento && mesNascimento == mesEvento;
-
-
-           /* if(dataNascimentoCliente.equals(dataEvento)){
-
-                return true;
-            } else{
-                return false;
-        }*/
     }
 
 
     //Cliente
     public static void cadastrarCliente(Teatro teatro, Scanner ler){
-        Cliente cliente = new Cliente();
+        System.out.println("### Precisamos de algumas informações:\n");
 
         System.out.println("### Nome: ");
-        cliente.setNome(ler.nextLine());
+        String nome = ler.nextLine();
 
         System.out.println("### Email: ");
-        cliente.setEmail(ler.nextLine());
+        String email = ler.nextLine();
 
         System.out.println("### Data de nascimento: ");
-        cliente.setDataNasc(ler.nextLine());
+        String dataNasc = ler.nextLine();
 
-        System.out.println("### Nome de usuario: ");
-        cliente.setNomeUsuario(ler.nextLine());
+        String nomeUsuario;
+        boolean nomeUsuarioDisponivel = false;
+        do {
+            System.out.println("### Nome de usuario:");
+            nomeUsuario = ler.nextLine();
 
-        System.out.println("### Senha (4 números diferentes de 0): ");
-        cliente.setSenha(ler.nextInt());
+            if (teatro.averiguarUsuarios(nomeUsuario) != null) {
+                System.out.println("Nome de usuario ja está em uso. Escolha outro!");
+            }else{
+                nomeUsuarioDisponivel = true;
+            }
+        }while (!nomeUsuarioDisponivel);
+
+        System.out.println("### Senha (4 números diferentes de 0):");
+        int senha = ler.nextInt();
         ler.nextLine();
 
-       teatro.addCliente(cliente);
+        Usuario cliente = new Usuario(nome, nomeUsuario, senha, dataNasc);
+        teatro.addUsuarios(cliente);
+        System.out.println("## Cliente cadastrado com sucesso!");
+
+    }
+
+    public static void clientesCadastrados(Teatro teatro){
+        Usuario c1 = new Usuario("Otavio", "otavio", 1111, "26/10/1999");
+        teatro.addUsuarios(c1);
+
+        Usuario c2 = new Usuario("Samuel", "samuel", 2222, "05/06/2000");
+        teatro.addUsuarios(c2);
+
+        Usuario c3 = new Usuario("Daves", "daves", 0000, "01/01/1985");
+        teatro.addUsuarios(c3);
     }
 
     //Menu

@@ -17,7 +17,7 @@ public class Evento
     public Evento(int numero, String nome, String data, String horario, String descricao, int capacidade, double precoIngresso){
         this.numero = numero;
         this.nome = nome;
-        this.data = data;  
+        this.data = data;
         this.horario = horario;
         this.descricao = descricao;
         this.capacidade = capacidade;
@@ -54,17 +54,17 @@ public class Evento
         return assentoEscolhido;
     }
 
-    public  void comprarIngresso(Assento assentoEscolhido, Teatro teatro, Evento evento, Cliente cliente) {
+    public  void comprarIngresso(Assento assentoEscolhido, Teatro teatro, Evento evento) {
         if (assentoEscolhido != null) {
-            if (verificaIngressoVendido(cliente, assentoEscolhido)) {
-                System.out.println("Ingresso comprado com sucesso!");
+            if (verificaIngressoVendido(assentoEscolhido)) {
+                System.out.println("\nIngresso comprado com sucesso!");
             }
         } else {
-            System.out.println("Assento inválido. Tente novamente.");
+            System.out.println("\nAssento inválido. Tente novamente.");
         }
     }
 
-    public boolean verificaIngressoVendido(Cliente cliente, Assento assento){
+    public boolean verificaIngressoVendido(Assento assento){
         if(assentosDisponiveis.contains(assento)){
             assentosDisponiveis.remove(assento);
             return true;
@@ -86,28 +86,28 @@ public class Evento
     public void setNumero(int numero){
         this.numero = numero;
     }
-    
+
     public String getNome(){
         return this.nome;
     }
     public void setNome(String nome){
         this.nome = nome;
     }
-    
+
     public String getData(){
         return this.data;
     }
     public void setData(String data){
         this.data = data;
     }
-    
+
     public String getHorario(){
         return this.horario;
     }
     public void setHorario(String horario){
         this.horario = horario;
     }
-    
+
     public String getDescricao(){
         return this.descricao;
     }
@@ -127,3 +127,4 @@ public class Evento
         return assentosDisponiveis;
     }
 }
+

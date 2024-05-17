@@ -5,24 +5,24 @@ public class Teatro
 {
     private String nome;
     private ArrayList<Evento> eventos;
-    private ArrayList<Cliente> clientes;
+    private ArrayList<Usuario> usuarios;
     private int totalEventosCadastrados;
-    
+
     public Teatro(){
         eventos = new ArrayList<>();
-        clientes = new ArrayList<>();
+        usuarios = new ArrayList<>();
     }
     public Teatro(String nome, int totalEventosCadastrados){
         this.nome = nome;
         this.totalEventosCadastrados = totalEventosCadastrados;
         eventos = new ArrayList<>();
-        clientes = new ArrayList<>();
+        usuarios = new ArrayList<>();
     }
-    
+
     public String getNome(){
         return this.nome;
     }
-    
+
     public ArrayList<Evento> getEvento(){
         return this.eventos;
     }
@@ -32,12 +32,22 @@ public class Teatro
         setTotalEventosCadastrados(+1);
     }
 
-    public ArrayList<Cliente> getClientes() {
-        return clientes;
+    public ArrayList<Usuario> getUsuarios() {
+        return usuarios;
     }
 
-    public void addCliente(Cliente clientes) {
-        this.clientes.add(clientes);
+    public void addUsuarios(Usuario usuarios) {
+        this.usuarios.add(usuarios);
+    }
+
+    public Usuario averiguarUsuarios(String nomeUsuario){
+
+        for(Usuario c : usuarios){
+            if(c.getNomeUsuario().equals(nomeUsuario)){
+                return c;
+            }
+        }
+        return null;
     }
 
     public void cadastrarEvento(Scanner ler) {

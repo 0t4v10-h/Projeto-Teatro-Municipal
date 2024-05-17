@@ -40,7 +40,7 @@ public class Teatro
         this.usuarios.add(usuarios);
     }
 
-    public Usuario averiguarUsuarios(String nomeUsuario){
+    public Usuario verificaUsuarios(String nomeUsuario){
 
         for(Usuario c : usuarios){
             if(c.getNomeUsuario().equals(nomeUsuario)){

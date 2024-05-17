@@ -80,7 +80,7 @@ public class Main {
         while(!loginCorreto) {
             System.out.println("### Informe seu nome de usuario: ");
             String nomeUsuario = ler.nextLine();
-            usuario = teatro.averiguarUsuarios(nomeUsuario);
+            usuario = teatro.verificaUsuarios(nomeUsuario);
 
             if(usuario != null){
                 System.out.println("### Informe sua senha: ");
@@ -151,8 +151,6 @@ public class Main {
 
                 pagarIngresso(evento, usuario, ler);
 
-                //evento.comprarIngresso(assentoEscolhido, teatro, evento);
-
                 if(comprarNovoIngresso(ler)){
                     iteracaoCliente(teatro,usuario, ler);
                 }else{
@@ -170,7 +168,6 @@ public class Main {
             if(le.equalsIgnoreCase("s")){
                 evento = eventoEscolhido(ler, teatro);
                 assentoEscolhido = escolherAssento(evento, ler);
-                //evento.comprarIngresso(assentoEscolhido, teatro, evento);
             }
             return true;
         }
@@ -229,7 +226,7 @@ public class Main {
         for (int i = 0; i < assentoDisponivel.size(); i++) {
             Assento assento = assentoDisponivel.get(i);
             if (assento.isOcupado()){
-                System.out.println("X\t");
+                System.out.println("x\t");
             }else{
                 System.out.print(assento.getNumeroAssento()+ "\t");
             }
@@ -266,7 +263,7 @@ public class Main {
 
                         for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
                             if (assento.getNumeroAssento() == numeroAssento) {
-                                assento.setNumeroAssento(0);
+                                assento.setOcupado(true);
                                 break;
                             }
                         }
@@ -275,8 +272,6 @@ public class Main {
                         System.out.println("Assento ja ocupado. Escolha outro.");
                         imprimirAssentos(eventoEscolhido);
                     }
-                }else {
-                    System.out.println("Número de assento inválido. Por favor, insira um número válido.");
                 }
             }catch (NumberFormatException e) {
                 System.out.println("Número de assento inválido. Por favor, insira um número válido.");
@@ -305,10 +300,14 @@ public class Main {
         int pagamento = ler.nextInt();
         ler.nextLine();
 
-        if(precoIngressoComDesconto(evento, usuario)){
+        double precoComDesconto = 0.0;
+        if(verificaDataEventoEAniversario(evento, usuario)){
             evento.setPrecoIngresso(evento.getPrecoIngresso() * 0.50);
-            System.out.println("\nFeliz Aniversario!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
+            System.out.println("\nVerificamos que no dia do evento é seu aniversário!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
             System.out.println("Você ganhou um desconto de 50%.");
+
+            precoComDesconto = evento.getPrecoIngresso() * 0.50;
+            System.out.println(String.format("Preço do ingresso com desconto: R$ %.2f", evento.getPrecoIngresso() - precoComDesconto));
         }
 
         if(pagamento == 1 || pagamento == 2){
@@ -319,12 +318,12 @@ public class Main {
             System.out.println("Deseja parcelar de quantas vezes?");
             int parcelas = ler.nextInt();
             ler.nextLine();
-            System.out.println(String.format("R$ %.2f por mês.",  evento.getPrecoIngresso() / parcelas));
+            System.out.println(String.format("R$ %.2f por mês.", (evento.getPrecoIngresso() - precoComDesconto) / parcelas));
         }
         return pagamento;
     }
 
-    public static boolean precoIngressoComDesconto(Evento evento, Usuario usuario){
+    public static boolean verificaDataEventoEAniversario(Evento evento, Usuario usuario){
         Teatro teatro;
         String dataNascimentoCliente = usuario.getDataNasc();
         String dataEvento = evento.getData();
@@ -360,7 +359,7 @@ public class Main {
             System.out.println("### Nome de usuario:");
             nomeUsuario = ler.nextLine();
 
-            if (teatro.averiguarUsuarios(nomeUsuario) != null) {
+            if (teatro.verificaUsuarios(nomeUsuario) != null) {
                 System.out.println("Nome de usuario ja está em uso. Escolha outro!");
             }else{
                 nomeUsuarioDisponivel = true;

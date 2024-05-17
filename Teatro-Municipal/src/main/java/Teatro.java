@@ -41,7 +41,6 @@ public class Teatro
     }
 
     public Usuario verificaUsuarios(String nomeUsuario){
-
         for(Usuario c : usuarios){
             if(c.getNomeUsuario().equals(nomeUsuario)){
                 return c;
@@ -70,17 +69,58 @@ public class Teatro
         System.out.println("### Descrição: ");
         evento.setDescricao(ler.nextLine());
 
-        System.out.println("### Capacidade: ");
-        evento.setCapacidade(ler.nextInt());
-        ler.nextLine();
+        int capacidade;
+        while (true) {
+            System.out.println("Capacidade do evento: ");
+            String input = ler.nextLine();
+            if (isInteger(input)) {
+                capacidade = Integer.parseInt(input);
+                if (capacidade > 0) {
+                    break;
+                } else {
+                    System.out.println("Capacidade deve ser um número positivo. Tente novamente.");
+                }
+            } else {
+                System.out.println("Entrada inválida. Por favor, insira um número inteiro.");
+            }
+        }
 
-        System.out.println("### Preço do ingresso: ");
-        evento.setPrecoIngresso(ler.nextDouble());
-        ler.nextLine();
+        double precoIngresso;
+        while (true) {
+            System.out.println("Preço do ingresso: ");
+            String input = ler.nextLine();
+            if (isDouble(input)) {
+                precoIngresso = Double.parseDouble(input);
+                if (precoIngresso > 0) {
+                    break;
+                } else {
+                    System.out.println("Preço deve ser um número positivo. Tente novamente.");
+                }
+            } else {
+                System.out.println("Entrada inválida. Por favor, insira um número decimal.");
+            }
+        }
 
         addEvento(evento);
     }
 
+    private boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean isDouble(String input) {
+        try {
+            Double.parseDouble(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
     public String relatorio(){
         int totalIngressosVendidos = 0;

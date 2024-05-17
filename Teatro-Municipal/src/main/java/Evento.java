@@ -42,27 +42,6 @@ public class Evento
         return disponiveis;
     }
 
-    public static Assento verificaAssentoDisponivel(Evento eventoEscolhido, int numeroAssentoEscolhido) {
-        Assento assentoEscolhido;
-        assentoEscolhido = null;
-        for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
-            if (assento.getNumeroAssento() == numeroAssentoEscolhido) {
-                assentoEscolhido = assento;
-                break;
-            }
-        }
-        return assentoEscolhido;
-    }
-
-    /*public  void comprarIngresso(Assento assentoEscolhido, Teatro teatro, Evento evento) {
-        if (assentoEscolhido != null && !assentoEscolhido.isOcupado()) {
-            assentoEscolhido.setOcupado(true);
-            System.out.println("\nIngresso comprado com sucesso!");
-        } else {
-            System.out.println("\nAssento inválido. Tente novamente.");
-        }
-    }*/
-
     public Assento verificaIngressoVendido(int assentoEscolhido){
         for(Assento assento : assentosDisponiveis){
             if(assento.getNumeroAssento() == assentoEscolhido){

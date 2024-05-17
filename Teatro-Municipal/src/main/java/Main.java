@@ -123,7 +123,7 @@ public class Main {
         int numeroEventoEscolhido = ler.nextInt();
         ler.nextLine();
 
-        Evento evento = escolherEvento(teatro, numeroEventoEscolhido);
+        Evento evento = buscarEventoPorNumero(teatro, numeroEventoEscolhido);
 
         escolherAssento(evento, ler);
 
@@ -137,17 +137,16 @@ public class Main {
     }
 
     private static boolean iteracaoCliente(Teatro teatro,Usuario usuario, Scanner ler) {
-        Assento assentoEscolhido;
         agendaEventos(teatro);
 
-        Evento evento = eventoEscolhido(ler, teatro);
+        Evento evento = selecinarEvento(ler, teatro);
 
         if (evento.totalAssentosDisponiveis() > 0) {
             System.out.println("Comprar ingresso: (S)im / (N)ão");
             String le = ler.nextLine();
 
             if(le.equalsIgnoreCase("s")){
-                assentoEscolhido = escolherAssento(evento, ler);
+                escolherAssento(evento, ler);
 
                 pagarIngresso(evento, usuario, ler);
 
@@ -166,15 +165,14 @@ public class Main {
             String le = ler.nextLine();
 
             if(le.equalsIgnoreCase("s")){
-                evento = eventoEscolhido(ler, teatro);
-                assentoEscolhido = escolherAssento(evento, ler);
+                evento = selecinarEvento(ler, teatro);
+                escolherAssento(evento, ler);
             }
             return true;
         }
         return false;
     }
 
-    //Evento
     private static void agendaEventos(Teatro teatro) {
         System.out.println("\nAgenda de eventos: ");
         System.out.println("-------------------------------------------------");
@@ -188,7 +186,7 @@ public class Main {
         }
     }
 
-    private static Evento escolherEvento(Teatro teatro, int numeroEventoEscolhido) {
+    private static Evento buscarEventoPorNumero(Teatro teatro, int numeroEventoEscolhido) {
         Evento eventoEscolhido = null;
         for (Evento evento : teatro.getEvento()){
             if (evento.getNumero() == numeroEventoEscolhido){
@@ -199,7 +197,7 @@ public class Main {
         return eventoEscolhido;
     }
 
-    private static Evento eventoEscolhido(Scanner ler, Teatro teatro) {
+    private static Evento selecinarEvento(Scanner ler, Teatro teatro) {
         System.out.println("Escolha o número do evento desejado ou digite 0 para voltar:");
         int numeroEventoEscolhido = ler.nextInt();
         ler.nextLine();
@@ -208,7 +206,7 @@ public class Main {
             menuCliente();
         }
 
-        Evento evento = escolherEvento(teatro, numeroEventoEscolhido);
+        Evento evento = buscarEventoPorNumero(teatro, numeroEventoEscolhido);
 
         if (evento != null) {
             System.out.println("Você escolheu o evento: " + evento.getNome());
@@ -216,9 +214,7 @@ public class Main {
         return evento;
     }
 
-    //Assento
-
-    private static void imprimirAssentos(Evento eventoEscolhido){
+    private static void imprimirMapaAssentos(Evento eventoEscolhido){
         int colunas = 10;
         ArrayList<Assento> assentoDisponivel = eventoEscolhido.getAssentosDisponiveis();
 
@@ -230,19 +226,17 @@ public class Main {
             }else{
                 System.out.print(assento.getNumeroAssento()+ "\t");
             }
-
             if((i+1) % colunas == 0){
                 System.out.println();
             }
         }
-
         if(assentoDisponivel.size() % colunas != 0){
             System.out.println();
         }
     }
 
     private static Assento escolherAssento(Evento eventoEscolhido, Scanner ler) {
-        imprimirAssentos(eventoEscolhido);
+        imprimirMapaAssentos(eventoEscolhido);
 
         while(true) {
             System.out.println("\nEscolha o número do assento desejado: ");
@@ -270,7 +264,7 @@ public class Main {
                         return assentoEscolhido;
                     }else {
                         System.out.println("Assento ja ocupado. Escolha outro.");
-                        imprimirAssentos(eventoEscolhido);
+                        imprimirMapaAssentos(eventoEscolhido);
                     }
                 }
             }catch (NumberFormatException e) {
@@ -278,8 +272,6 @@ public class Main {
             }
         }
     }
-
-    //Ingresso
 
     private static boolean comprarNovoIngresso(Scanner ler) {
         System.out.println("### Deseja comprar outro ingresso: (S)im / (N)ão");
@@ -346,8 +338,6 @@ public class Main {
         return diaNascimento == diaEvento && mesNascimento == mesEvento;
     }
 
-
-    //Cliente
     public static void cadastrarCliente(Teatro teatro, Scanner ler){
         System.out.println("### Precisamos de algumas informações:\n");
 

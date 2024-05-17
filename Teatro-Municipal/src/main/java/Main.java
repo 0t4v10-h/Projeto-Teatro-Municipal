@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -150,7 +151,7 @@ public class Main {
 
                 pagarIngresso(evento, usuario, ler);
 
-                evento.comprarIngresso(assentoEscolhido, teatro, evento);
+                //evento.comprarIngresso(assentoEscolhido, teatro, evento);
 
                 if(comprarNovoIngresso(ler)){
                     iteracaoCliente(teatro,usuario, ler);
@@ -169,7 +170,7 @@ public class Main {
             if(le.equalsIgnoreCase("s")){
                 evento = eventoEscolhido(ler, teatro);
                 assentoEscolhido = escolherAssento(evento, ler);
-                evento.comprarIngresso(assentoEscolhido, teatro, evento);
+                //evento.comprarIngresso(assentoEscolhido, teatro, evento);
             }
             return true;
         }
@@ -218,20 +219,69 @@ public class Main {
         return evento;
     }
 
-
-
     //Assento
-    private static Assento escolherAssento(Evento eventoEscolhido, Scanner ler) {
-        Assento assentoEscolhido;
-        System.out.println("Assentos disponiveis: ");
-        for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
-            System.out.print(" " + assento.getNumeroAssento());
-        }
-        System.out.println("\nEscolha o número do assento desejado: ");
-        int numeroAssentoEscolhido = ler.nextInt();
-        ler.nextLine();
 
-        return Evento.verificaAssentoDisponivel(eventoEscolhido, numeroAssentoEscolhido);
+    private static void imprimirAssentos(Evento eventoEscolhido){
+        int colunas = 10;
+        ArrayList<Assento> assentoDisponivel = eventoEscolhido.getAssentosDisponiveis();
+
+        System.out.println("Assentos disponiveis: ");
+        for (int i = 0; i < assentoDisponivel.size(); i++) {
+            Assento assento = assentoDisponivel.get(i);
+            if (assento.isOcupado()){
+                System.out.println("X\t");
+            }else{
+                System.out.print(assento.getNumeroAssento()+ "\t");
+            }
+
+            if((i+1) % colunas == 0){
+                System.out.println();
+            }
+        }
+
+        if(assentoDisponivel.size() % colunas != 0){
+            System.out.println();
+        }
+    }
+
+    private static Assento escolherAssento(Evento eventoEscolhido, Scanner ler) {
+        imprimirAssentos(eventoEscolhido);
+
+        while(true) {
+            System.out.println("\nEscolha o número do assento desejado: ");
+            String numeroAssentoEscolhido = ler.nextLine();
+
+            try {
+                System.out.println("Número de assento escolhido: " + numeroAssentoEscolhido);
+
+                int numeroAssento = Integer.parseInt(numeroAssentoEscolhido);
+                System.out.println("Número de assento escolhido: " + numeroAssento);
+                System.out.println("Número de assentos disponíveis: " + eventoEscolhido.getAssentosDisponiveis().size());
+
+
+                if (numeroAssento >= 1 && numeroAssento <= eventoEscolhido.getAssentosDisponiveis().size()) {
+                    Assento assentoEscolhido = eventoEscolhido.verificaIngressoVendido(numeroAssento);
+
+                    if (assentoEscolhido != null && !assentoEscolhido.isOcupado()) {
+
+                        for (Assento assento : eventoEscolhido.getAssentosDisponiveis()) {
+                            if (assento.getNumeroAssento() == numeroAssento) {
+                                assento.setNumeroAssento(0);
+                                break;
+                            }
+                        }
+                        return assentoEscolhido;
+                    }else {
+                        System.out.println("Assento ja ocupado. Escolha outro.");
+                        imprimirAssentos(eventoEscolhido);
+                    }
+                }else {
+                    System.out.println("Número de assento inválido. Por favor, insira um número válido.");
+                }
+            }catch (NumberFormatException e) {
+                System.out.println("Número de assento inválido. Por favor, insira um número válido.");
+            }
+        }
     }
 
     //Ingresso
@@ -269,7 +319,7 @@ public class Main {
             System.out.println("Deseja parcelar de quantas vezes?");
             int parcelas = ler.nextInt();
             ler.nextLine();
-            System.out.println("R$ " + evento.getPrecoIngresso() / parcelas + " por mês.");
+            System.out.println(String.format("R$ %.2f por mês.",  evento.getPrecoIngresso() / parcelas));
         }
         return pagamento;
     }

@@ -55,22 +55,21 @@ public class Evento
     }
 
     public  void comprarIngresso(Assento assentoEscolhido, Teatro teatro, Evento evento) {
-        if (assentoEscolhido != null) {
-            if (verificaIngressoVendido(assentoEscolhido)) {
-                System.out.println("\nIngresso comprado com sucesso!");
-            }
+        if (assentoEscolhido != null && !assentoEscolhido.isOcupado()) {
+            assentoEscolhido.setOcupado(true);
+            System.out.println("\nIngresso comprado com sucesso!");
         } else {
             System.out.println("\nAssento inválido. Tente novamente.");
         }
     }
 
-    public boolean verificaIngressoVendido(Assento assento){
-        if(assentosDisponiveis.contains(assento)){
-            assentosDisponiveis.remove(assento);
-            return true;
-        } else{
-            return false;
+    public Assento verificaIngressoVendido(int assentoEscolhido){
+        for(Assento assento : assentosDisponiveis){
+            if(assento.getNumeroAssento() == assentoEscolhido){
+                return assento;
+            }
         }
+        return null;
     }
 
     public double getPrecoIngresso() {
@@ -123,7 +122,6 @@ public class Evento
     }
 
     public ArrayList<Assento> getAssentosDisponiveis() {
-
         return assentosDisponiveis;
     }
 }

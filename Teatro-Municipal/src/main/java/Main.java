@@ -226,7 +226,7 @@ public class Main {
         for (int i = 0; i < assentoDisponivel.size(); i++) {
             Assento assento = assentoDisponivel.get(i);
             if (assento.isOcupado()){
-                System.out.println("x\t");
+                System.out.print("x\t");
             }else{
                 System.out.print(assento.getNumeroAssento()+ "\t");
             }
@@ -301,6 +301,7 @@ public class Main {
         ler.nextLine();
 
         double precoComDesconto = 0.0;
+
         if(verificaDataEventoEAniversario(evento, usuario)){
             evento.setPrecoIngresso(evento.getPrecoIngresso() * 0.50);
             System.out.println("\nVerificamos que no dia do evento é seu aniversário!!! \nFicamos feliz por você ter escolhido comemorar seu aniversario com a gente.");
@@ -315,16 +316,22 @@ public class Main {
 
         }else if (pagamento == 3){
             System.out.println("\nPossibilidade de pagamento: até 3x sem juros");
-            System.out.println("Deseja parcelar de quantas vezes?");
-            int parcelas = ler.nextInt();
-            ler.nextLine();
+            int parcelas = 0;
+            while(parcelas < 1 || parcelas > 3){
+                System.out.println("Deseja parcelar de quantas vezes?");
+                parcelas = ler.nextInt();
+                ler.nextLine();
+                if(parcelas < 1 || parcelas > 3){
+                    System.out.println("Número de parcelas invalido. Escolha entre 1 e 3!");
+                }
+            }
+
             System.out.println(String.format("R$ %.2f por mês.", (evento.getPrecoIngresso() - precoComDesconto) / parcelas));
         }
         return pagamento;
     }
 
     public static boolean verificaDataEventoEAniversario(Evento evento, Usuario usuario){
-        Teatro teatro;
         String dataNascimentoCliente = usuario.getDataNasc();
         String dataEvento = evento.getData();
 
